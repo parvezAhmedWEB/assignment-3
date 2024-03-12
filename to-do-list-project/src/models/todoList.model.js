@@ -9,6 +9,10 @@ const toDoListSchema = mongoose.Schema(
     description: {
       type: String,
     },
+    email: {
+      type: String,
+      required: true,
+    },
     completed: {
       type: Boolean,
       enum: [true, false],
