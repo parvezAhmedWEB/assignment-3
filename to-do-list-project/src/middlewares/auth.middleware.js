@@ -4,7 +4,6 @@ const key = require("../../config/config").token.key;
 const authenticate = (req, res, next) => {
   try {
     const token = req.headers["token"];
-    console.log(token);
     jwt.verify(token, key, (err, decoded) => {
       if (err) {
         return res.status(401).json({
