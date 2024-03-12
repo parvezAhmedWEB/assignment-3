@@ -42,8 +42,10 @@ const getToDo = async (req, res) => {
 const updateToDo = async (req, res) => {
   try {
     const { id } = req.params;
+    const email = req.headers["email"];
     const { title, description } = req.body;
-    const toDo = await ToDoModel.findOne({ _id: id });
+    const toDo = await ToDoModel.findOne({ _id: id, email });
+    console.log(toDo);
     toDo.title = title ?? toDo.title;
     toDo.description = description ?? toDo.description;
     await toDo.save();
@@ -59,5 +61,22 @@ const updateToDo = async (req, res) => {
     });
   }
 };
+const deleteToDo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const email = req.headers["email"];
+    const toDo = await ToDoModel.deleteOne({ _id: id, email });
+    return res.status(200).json({
+      success: true,
+      message: "Delete To Do",
+      data: toDo,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
 
-module.exports = { createToDo, getToDo, updateToDo };
+module.exports = { createToDo, getToDo, updateToDo, deleteToDo };
