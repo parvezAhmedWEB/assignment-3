@@ -78,5 +78,25 @@ const deleteToDo = async (req, res) => {
     });
   }
 };
+const completeToDo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const email = req.headers["email"];
+    const toDo = await ToDoModel.findOne({ _id: id, email });
+    console.log(toDo);
+    toDo.completed = true;
+    await toDo.save();
+    return res.status(200).json({
+      success: true,
+      message: "Complete To Do",
+      data: toDo,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
 
-module.exports = { createToDo, getToDo, updateToDo, deleteToDo };
+module.exports = { createToDo, getToDo, updateToDo, deleteToDo, completeToDo };
