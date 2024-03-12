@@ -1,10 +1,15 @@
-const { createToDo, getToDo } = require("../controllers/toDoList.controller");
+const {
+  createToDo,
+  getToDo,
+  updateToDo,
+} = require("../controllers/toDoList.controller");
 
 const router = require("express").Router();
 /* 
-router.patch("/:id", updateToDo);
+
 router.delete("/:id", deleteToDo);
 */
+router.patch("/:id", updateToDo);
 router.get("/", getToDo);
 router.post("/", createToDo);
 

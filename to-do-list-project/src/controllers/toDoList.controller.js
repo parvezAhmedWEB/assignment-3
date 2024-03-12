@@ -39,5 +39,25 @@ const getToDo = async (req, res) => {
     });
   }
 };
+const updateToDo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description } = req.body;
+    const toDo = await ToDoModel.findOne({ _id: id });
+    toDo.title = title ?? toDo.title;
+    toDo.description = description ?? toDo.description;
+    await toDo.save();
+    return res.status(200).json({
+      success: true,
+      message: "Update To Do",
+      data: toDo,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
 
-module.exports = { createToDo, getToDo };
+module.exports = { createToDo, getToDo, updateToDo };
